@@ -1,19 +1,27 @@
 package ru.cv2;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class Main {
+    //constants
+    private final static int fileCount = 13;
+    private final static int threadCount = 6;
+    private final static int fileLength = 10_000_000;
+    private final static int fileBoundary = 1_000_000;
+    private final static String folder = "files";
+
     public static void main(String[] args) {
-        // Press Alt+Enter with your caret at the highlighted text to see how
-        // IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
 
-        // Press Shift+F10 or click the green arrow button in the gutter to run the code.
-        for (int i = 1; i <= 5; i++) {
+        System.out.println("Generating files.");
+        //load our fileGenerator and generate files
+        FileGenerator fileGenerator = new FileGenerator();
+        fileGenerator.generateSeq(fileCount, folder, fileBoundary, fileLength);
+        System.out.println("Generated files.");
 
-            // Press Shift+F9 to start debugging your code. We have set one breakpoint
-            // for you, but you can always add more by pressing Ctrl+F8.
-            System.out.println("i = " + i);
+        //non-thread read
+        NonThreadRead ntr = new NonThreadRead();
+        ntr.execute(folder, fileCount);
+
+        //threaded read
+        ThreadRead tr = new ThreadRead();
+        tr.execute(folder, fileCount, threadCount);
         }
     }
-}
