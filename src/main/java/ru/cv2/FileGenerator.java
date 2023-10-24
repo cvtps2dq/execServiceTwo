@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class FileGenerator {
     public void generateOne(String fileName, int length, int boundary){
@@ -42,5 +44,24 @@ public class FileGenerator {
             generateOne(f + "/" + i + ".txt", fileLength, boundary);
             System.out.println("Successfully generated file " + i + ".");
         }
+    }
+
+    public void generateSeqThreaded(int fileCount, String initialFolder, int boundary, int fileLength, int threadCount){
+        File f = new File(initialFolder);
+        //create folder
+        f.mkdir();
+
+        //create multiple files using FileGeneratorTask, using
+        //threads and ExecutorService
+
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+
+        for (int i = 0; i < fileCount; i++){
+            executorService.submit(new FileGeneratorTask(initialFolder + "/" + i + ".txt", fileLength, boundary));
+            System.out.println("File " + i + " generation routine was put into the executor.");
+        }
+
+        // sleep well, executorService, you served me well.
+        executorService.shutdown();
     }
 }

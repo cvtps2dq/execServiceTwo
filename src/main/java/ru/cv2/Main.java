@@ -13,7 +13,8 @@ public class Main {
         System.out.println("Generating files.");
         //load our fileGenerator and generate files
         FileGenerator fileGenerator = new FileGenerator();
-        fileGenerator.generateSeq(fileCount, folder, fileBoundary, fileLength);
+        //fileGenerator.generateSeq(fileCount, folder, fileBoundary, fileLength);
+        fileGenerator.generateSeqThreaded(fileCount, folder, fileBoundary, fileLength, threadCount);
         System.out.println("Generated files.");
 
         //non-thread read
