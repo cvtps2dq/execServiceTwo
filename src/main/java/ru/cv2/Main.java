@@ -17,12 +17,13 @@ public class Main {
         fileGenerator.generateSeqThreaded(fileCount, folder, fileBoundary, fileLength, threadCount);
         System.out.println("Generated files.");
 
+        //create fileReader
+        FileReader fileReader = new FileReader();
+
         //non-thread read
-        NonThreadRead ntr = new NonThreadRead();
-        ntr.execute(folder, fileCount);
+        fileReader.execute(folder, fileCount);
 
         //threaded read
-        ThreadRead tr = new ThreadRead();
-        tr.execute(folder, fileCount, threadCount);
+        fileReader.executeThreaded(folder, fileCount, threadCount);
         }
     }
